@@ -1,7 +1,7 @@
 import * as Hapi from 'hapi';
 
 import { logger } from './service';
-import VoteRouter from './api/vote/routes';
+import VoteRouter from './api/routes';
 
 export default class Router {
   public static async loadRoutes(server: Hapi.Server): Promise<void> {
