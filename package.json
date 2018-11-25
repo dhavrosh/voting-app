@@ -1,0 +1,11 @@
+{
+  "name": "voting-app",
+  "version": "1.0.0",
+  "description": "simple app to provide voting process via microservices communication",
+  "keywords": [
+    "voting-app",
+    "microservices"
+  ],
+  "author": "dhavrosh",
+  "license": "ISC"
+}
