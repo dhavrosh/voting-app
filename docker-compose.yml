@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  vote:
+    build: ./vote
+    command: npm start
+    volumes:
+      - ./vote:/app
+      - ./vote/node_modules:/app/node_modules
+    ports:
+      - "3000:3000"
+    restart: on-failure

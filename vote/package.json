@@ -2,9 +2,16 @@
   "name": "vote",
   "version": "1.0.0",
   "description": "vote microservice",
+  "main": "./dist/index.js",
   "scripts": {
-    "start": "npm run nodemon:build",
-    "nodemon:build": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts"
+    "start": "npm run watch",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "watch-node": "nodemon dist/index.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "build": "npm run build-ts && npm run tslint",
+    "launch": "npm run build && node ./dist/index.js"
   },
   "keywords": [
     "voting-app",
@@ -13,6 +20,7 @@
   "author": "dhavrosh",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^4.1.0",
     "dotenv": "^6.1.0",
     "hapi": "^17.8.1",
     "winston": "^2.3.1",
@@ -21,9 +29,9 @@
   "devDependencies": {
     "@types/dotenv": "^6.1.0",
     "@types/hapi": "^17.6.4",
+    "@types/node": "^10.12.10",
     "@types/winston": "^2.3.3",
     "nodemon": "^1.18.6",
-    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.1.6"

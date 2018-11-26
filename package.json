@@ -7,5 +7,6 @@
     "microservices"
   ],
   "author": "dhavrosh",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {}
 }
