@@ -7,6 +7,20 @@ services:
     volumes:
       - ./vote:/app
       - ./vote/node_modules:/app/node_modules
-    ports:
-      - "3000:3000"
     restart: on-failure
+    networks:
+      - front-tier
+      - back-tier
+  gateway:
+    build: ./gateway
+    ports: 
+      - "80:80"
+    links:
+      - "vote"
+    restart: always
+    networks:
+      - front-tier
+
+networks:
+  front-tier:
+  back-tier:

@@ -17,6 +17,4 @@ ENV HOST 0.0.0.0
 ENV NODE_ENV development
 ENV LOG_LEVEL debug
 
-EXPOSE 3000
-
 CMD ["npm", "run", "launch"]

@@ -1,5 +1,5 @@
 export default class VoteController {
   get() {
-    return 'Hello World!';
+    return 'Hello World';
   }
 }
