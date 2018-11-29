@@ -16,7 +16,7 @@ export default class Server {
         port: process.env.PORT,
       });
 
-      const redisClient = await redis.connect('redis://redis');
+      const redisClient = await redis.connect({ host: process.env.RHOST });
 
       await Router.loadRoutes(Server.instance, redisClient);
       await Server.instance.start();

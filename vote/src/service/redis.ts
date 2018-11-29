@@ -18,8 +18,8 @@ export class RedisClient {
     this.logger = logger;
   }
 
-  public async connect(url: string) {
-    this.client = promisifyAll(Redis).createClient(url);
+  public async connect(options: Redis.ClientOpts) {
+    this.client = promisifyAll(Redis).createClient(options);
     this.client.on('error', this.logger.error);
 
     return this.client;

@@ -16,6 +16,8 @@ services:
     build: ./vote
     container_name: vote
     command: npm start
+    environment:
+      - RHOST=redis
     volumes:
       - ./vote:/app
       - ./vote/node_modules:/app/node_modules
@@ -23,12 +25,21 @@ services:
     networks:
       - front-tier
       - back-tier
+    depends_on:
+      - redis
 
   redis:
     image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    volumes:
+      - redis-data:/data
     ports: ["6379"]
     networks:
       - back-tier
+
+volumes:
+  redis-data:
 
 networks:
   front-tier:
