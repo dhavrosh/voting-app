@@ -7,6 +7,16 @@ import { logger, redis } from './service';
 export default class Server {
   private static instance: Hapi.Server;
 
+  private static async initTemplateEngine(server: Hapi.Server) {
+    await server.register(require('vision'));
+
+    server.views({
+      engines: { html: require('handlebars') },
+      relativeTo: __dirname,
+      path: 'template',
+    });
+  }
+
   public static async start(): Promise<Hapi.Server> {
     try {
       DotEnv.config({ path: `${process.cwd()}/.env` });
@@ -18,6 +28,7 @@ export default class Server {
 
       const redisClient = await redis.connect({ host: process.env.RHOST });
 
+      await Server.initTemplateEngine(Server.instance);
       await Router.loadRoutes(Server.instance, redisClient);
       await Server.instance.start();
 
@@ -46,4 +57,5 @@ export default class Server {
   public static getInstance(): Hapi.Server {
     return Server.instance;
   }
+
 }

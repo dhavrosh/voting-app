@@ -12,6 +12,12 @@ export default class VoteRoutes implements Route {
 
       const controller = new VoteController(redis);
 
+      server.route({
+        method: 'GET',
+        path: '/',
+        handler: { view: 'index' },
+      });
+
       server.route([
         {
           method: 'GET',

@@ -6,9 +6,11 @@
   "scripts": {
     "start": "npm run watch",
     "build-ts": "tsc",
+    "copy-template": "cpx \"src/template/**/*.html\" dist/template",
+    "watch-template": "npm run copy-template -- -w",
     "watch-ts": "tsc -w",
-    "watch-node": "nodemon dist/index.js",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "watch-node": "nodemon dist",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"Template,TypeScript,Node\" -c \"orange.bold,yellow.bold,green.bold\" \"npm run watch-template\" \"npm run watch-ts\" \"npm run watch-node\"",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "build": "npm run build-ts && npm run tslint",
     "launch": "npm run build && node ./dist/index.js"
@@ -22,7 +24,9 @@
   "dependencies": {
     "bluebird": "^3.5.3",
     "concurrently": "^4.1.0",
+    "cpx": "^1.5.0",
     "dotenv": "^6.1.0",
+    "handlebars": "^4.0.12",
     "hapi": "^17.8.1",
     "redis": "^2.8.0",
     "winston": "^2.3.1",
@@ -34,10 +38,12 @@
     "@types/hapi": "^17.6.4",
     "@types/node": "^10.12.10",
     "@types/redis": "^2.8.8",
+    "@types/vision": "^5.3.5",
     "@types/winston": "^2.3.3",
     "nodemon": "^1.18.6",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "vision": "^5.4.3"
   }
 }
