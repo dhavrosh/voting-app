@@ -2,7 +2,7 @@ import * as Hapi from 'hapi';
 import * as DotEnv from 'dotenv';
 
 import Router from './router';
-import { logger } from './service';
+import { logger, redis } from './service';
 
 export default class Server {
   private static instance: Hapi.Server;
@@ -16,8 +16,9 @@ export default class Server {
         port: process.env.PORT,
       });
 
-      await Router.loadRoutes(Server.instance);
+      const redisClient = await redis.connect('redis://redis');
 
+      await Router.loadRoutes(Server.instance, redisClient);
       await Server.instance.start();
 
       logger.info(`Server started successfully on port ${Server.instance.info.port}`);

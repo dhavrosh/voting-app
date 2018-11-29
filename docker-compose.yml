@@ -1,8 +1,20 @@
 version: "3"
 
 services:
+
+  gateway:
+    build: ./gateway
+    ports: 
+      - 80:80
+    links:
+      - "vote"
+    restart: always
+    networks:
+      - front-tier
+
   vote:
     build: ./vote
+    container_name: vote
     command: npm start
     volumes:
       - ./vote:/app
@@ -11,15 +23,12 @@ services:
     networks:
       - front-tier
       - back-tier
-  gateway:
-    build: ./gateway
-    ports: 
-      - "80:80"
-    links:
-      - "vote"
-    restart: always
+
+  redis:
+    image: redis:alpine
+    ports: ["6379"]
     networks:
-      - front-tier
+      - back-tier
 
 networks:
   front-tier:
