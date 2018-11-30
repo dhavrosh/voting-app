@@ -14,6 +14,7 @@ export default class Server {
       engines: { html: require('handlebars') },
       relativeTo: __dirname,
       path: 'template',
+      helpersPath: 'helper',
     });
   }
 
