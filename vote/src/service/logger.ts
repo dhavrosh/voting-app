@@ -1,10 +1,12 @@
 import { Logger, transports as Transports, LoggerInstance } from 'winston';
 import 'winston-daily-rotate-file';
 
+import { LOG_LEVEL } from '../secrets';
+
 export class ApiLogger {
   public static newInstance(): LoggerInstance {
     const rotateFileTransport = new Transports.DailyRotateFile({
-      level: process.env.LOG_LEVEL,
+      level: LOG_LEVEL,
       datePattern: 'dd-MM-yyyy.',
       dirname: './logs',
       filename: './log',
@@ -14,7 +16,7 @@ export class ApiLogger {
     const consoleTransport = new Transports.Console({
       colorize: true,
       prettyPrint: true,
-      level: process.env.NODE_ENV === 'test' ? 'warn' : 'info',
+      level: 'info',
     });
 
     return new Logger({

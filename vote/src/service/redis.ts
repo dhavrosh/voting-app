@@ -14,9 +14,7 @@ export class RedisClient {
 
   private client: Redis.RedisClient;
 
-  constructor(private logger: LoggerInstance) {
-    this.logger = logger;
-  }
+  constructor(private logger: LoggerInstance) {}
 
   public async connect(options: Redis.ClientOpts) {
     this.client = promisifyAll(Redis).createClient(options);

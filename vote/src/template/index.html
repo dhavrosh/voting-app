@@ -1,14 +1,8 @@
-<!doctype html>
-<html>
-  <head>
-    <title>voting-app</title>
-  </head>
-  <body>
-      <p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.</p>
-      {{#options}}
-        {{#each this}}
-          <p>{{ label }}</p>
-        {{/each}}
-      {{/options}}
-  </body>
-</html>
+<form action="/vote" method="POST">
+  {{#options}}
+  {{#each this}}
+    <input type="radio" name="vote" value="{{value}}"} required/>{{label}}<br/>
+  {{/each}}
+  {{/options}}
+  <input type="submit" value="Submit"/>
+</form>

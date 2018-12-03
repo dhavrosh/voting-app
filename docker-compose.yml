@@ -18,6 +18,7 @@ services:
     command: npm start
     environment:
       - RHOST=redis
+      - RLIST_NAME=votes
     volumes:
       - ./vote:/app
       - ./vote/node_modules:/app/node_modules

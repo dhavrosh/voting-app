@@ -1,8 +1,8 @@
 import * as Hapi from 'hapi';
-import * as DotEnv from 'dotenv';
 
-import Router from './router';
+import { HOST, PORT, RHOST } from './secrets';
 import { logger, redis } from './service';
+import Router from './router';
 
 export default class Server {
   private static instance: Hapi.Server;
@@ -13,21 +13,22 @@ export default class Server {
     server.views({
       engines: { html: require('handlebars') },
       relativeTo: __dirname,
+      layout: true,
       path: 'template',
+      layoutPath: 'template',
       helpersPath: 'helper',
     });
   }
 
   public static async start(): Promise<Hapi.Server> {
     try {
-      DotEnv.config({ path: `${process.cwd()}/.env` });
 
       Server.instance = new Hapi.Server({
-        host: process.env.HOST,
-        port: process.env.PORT,
+        host: HOST,
+        port: PORT,
       });
 
-      const redisClient = await redis.connect({ host: process.env.RHOST });
+      const redisClient = await redis.connect({ host: RHOST });
 
       await Server.initTemplateEngine(Server.instance);
       await Router.loadRoutes(Server.instance, redisClient);
