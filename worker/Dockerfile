@@ -12,4 +12,7 @@ RUN npm install && npm cache clean --force && mv /app/node_modules /node_modules
 
 COPY . /app
 
+ENV PORT 3001
+ENV HOST 0.0.0.0
+
 CMD ["npm", "run", "start"]

@@ -1,5 +1,5 @@
 import { ApiLogger } from './logger';
-import { RedisClient } from './redis';
+import { RedisClient } from '../../../common/redis';
 
 export const logger = ApiLogger.newInstance();
 

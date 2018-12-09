@@ -23,6 +23,7 @@ services:
       - ./vote:/app
       - ./vote/node_modules:/app/node_modules
       - ./tsconfig-base.json:/tsconfig-base.json
+      - ./common:/common
     restart: on-failure
     networks:
       - front-tier
@@ -44,6 +45,7 @@ services:
       - ./worker:/app
       - ./worker/node_modules:/app/node_modules
       - ./tsconfig-base.json:/tsconfig-base.json
+      - ./common:/common
     restart: on-failure
     networks:
       - back-tier

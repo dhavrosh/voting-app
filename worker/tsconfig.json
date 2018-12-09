@@ -2,7 +2,7 @@
   "extends": "../tsconfig-base",
   "compilerOptions": {
     "outDir": "./",
-    "rootDir": "./"
+    "rootDirs": ["../common", "./src"]
   },
   "exclude": [
     "node_modules"

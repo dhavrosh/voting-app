@@ -4,7 +4,7 @@
   "description": "worker microservice",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node-dev index.ts"
+    "start": "ts-node-dev src/index.ts"
   },
   "keywords": [
     "voting-app",
@@ -13,12 +13,16 @@
   "author": "dhavrosh",
   "license": "ISC",
   "devDependencies": {
+    "@types/dotenv": "^6.1.0",
     "@types/node": "^10.12.12",
+    "@types/redis": "^2.8.8",
     "@types/restify": "^7.2.6",
     "ts-node-dev": "^1.0.0-pre.31",
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "dotenv": "^6.2.0",
+    "redis": "^2.8.0",
     "restify": "^7.3.0"
   }
 }
