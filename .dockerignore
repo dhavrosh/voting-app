@@ -1,3 +1,5 @@
-*/logs/*.log
+*.log
+.git
+.gitignore
 node_modules
 dist
