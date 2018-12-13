@@ -1,6 +1,3 @@
-FROM mysql:latest
-
-ENV MYSQL_DATABASE voting_dev_db 
-ENV MYSQL_ALLOW_EMPTY_PASSWORD yes
+FROM mysql:5.6
 
 ADD setup.sql /docker-entrypoint-initdb.d

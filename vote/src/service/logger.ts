@@ -7,7 +7,7 @@ export class ApiLogger {
   public static newInstance(): LoggerInstance {
     const rotateFileTransport = new Transports.DailyRotateFile({
       level: LOG_LEVEL,
-      datePattern: 'dd-MM-yyyy.',
+      datePattern: 'dd-MM-yyyy',
       dirname: './logs',
       filename: './log',
       prepend: true,
