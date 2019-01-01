@@ -2,7 +2,6 @@ import * as Redis from 'redis';
 import { promisifyAll } from 'bluebird';
 
 declare module 'redis' {
-
   export interface RedisClient extends NodeJS.EventEmitter {
     rpushAsync(list: string, value: string): Promise<void>;
     lrangeAsync(key: string, start: number, stop: number): Promise<string[]>;

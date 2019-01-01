@@ -11,17 +11,16 @@ const start = async () => {
   const server = Restify.createServer();
 
   const mysqlPool = new MysqlPool({ uri: DB_URI });
-  const redis = new RedisClient(console);
+  const redis: RedisClient = new RedisClient(console);
   const redisClient = await redis.connect({ host: RHOST });
 
   server.listen(PORT, HOST, async () => {
     console.log(`${server.name} listening at ${server.url}`);
 
-    pollVoteList(redisClient);
+    pollVoteList(redisClient, mysqlPool);
 
-    const res = await mysqlPool.doQuery('SELECT * FROM vote');
-
-    console.log('res', res);
+    const votes = await mysqlPool.doQuery('SELECT * FROM vote');
+    console.log('votes', votes);
   });
 };
 

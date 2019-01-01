@@ -67,7 +67,6 @@ services:
   db:
     build: ./db
     hostname: db
-    command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
