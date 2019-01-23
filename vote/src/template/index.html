@@ -1,8 +1,15 @@
+<h1>Select your candidate</h1>
+<br/>
 <form action="/vote" method="POST">
   {{#options}}
   {{#each this}}
-    <input type="radio" name="vote" value="{{value}}"} required/>{{label}}<br/>
+    <div class="vote">
+      <input type="radio" name="vote" value="{{value}}"} required/>
+      <h2>{{label}}</h2>
+    </div>
   {{/each}}
   {{/options}}
-  <input type="submit" value="Submit"/>
+  <div id="vote-block">
+    <input type="submit" value="Vote"/>
+  </div>
 </form>
