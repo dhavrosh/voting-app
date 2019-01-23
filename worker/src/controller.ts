@@ -1,7 +1,7 @@
 import { RedisClient } from 'redis';
 
 import { RLIST_NAME } from './secrets';
-import { MysqlPool } from '../../common/mysql';
+import { MysqlPool } from '../../common/service';
 
 const pollTimeout = 1000;
 

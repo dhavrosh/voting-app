@@ -13,6 +13,8 @@ interface Logger {
   error: (msg: string) => void;
 }
 
+export interface RedisNativeClient extends Redis.RedisClient {};
+
 export class RedisClient {
 
   private client: Redis.RedisClient;

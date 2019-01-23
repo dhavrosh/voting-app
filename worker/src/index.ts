@@ -3,8 +3,7 @@ import * as Restify from 'restify';
 import { pollVoteList } from './controller';
 import { DB_URI, RHOST, HOST, PORT } from './secrets';
 
-import { MysqlPool } from '../../common/mysql';
-import { RedisClient } from '../../common/redis';
+import { MysqlPool, RedisClient } from '../../common/service';
 
 const start = async () => {
   

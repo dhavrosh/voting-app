@@ -1,6 +1,8 @@
 import { ApiLogger } from './logger';
-import { RedisClient } from '../../../common/redis';
+import { RedisClient, RedisNativeClient } from '../../../common/service';
 
-export const logger = ApiLogger.newInstance();
+const logger = ApiLogger.newInstance();
 
-export const redis = new RedisClient(logger);
+const redis = new RedisClient(logger);
+
+export { logger, redis, RedisNativeClient };

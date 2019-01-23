@@ -1,4 +1,5 @@
 import * as Hapi from 'hapi';
+import * as vision from 'vision';
 
 import { HOST, PORT, RHOST } from './secrets';
 import { logger, redis } from './service';
@@ -8,15 +9,15 @@ export default class Server {
   private static instance: Hapi.Server;
 
   private static async initTemplateEngine(server: Hapi.Server) {
-    await server.register(require('vision'));
+    await server.register(vision);
 
     server.views({
       engines: { html: require('handlebars') },
       relativeTo: __dirname,
       layout: true,
       path: 'template',
-      layoutPath: 'template',
       helpersPath: 'helper',
+      layoutPath: '../../common/view',
     });
   }
 

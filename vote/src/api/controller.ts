@@ -1,6 +1,6 @@
 import { ResponseToolkit } from 'hapi';
-import { RedisClient } from 'redis';
 
+import { RedisNativeClient } from '../service';
 import { PostRequest } from '../types';
 import { RLIST_NAME } from '../secrets';
 
@@ -10,7 +10,7 @@ interface VotePayload {
 
 export default class VoteController {
 
-  constructor(private redis: RedisClient) {}
+  constructor(private redis: RedisNativeClient) {}
 
   public async vote(request: PostRequest<VotePayload>, h: ResponseToolkit) {
 

@@ -1,12 +1,11 @@
 import * as Hapi from 'hapi';
-import { RedisClient } from 'redis';
 
 import VoteController from './controller';
 import { Route } from '../types';
-import { logger } from '../service';
+import { logger, RedisNativeClient } from '../service';
 
 export default class VoteRoutes implements Route {
-  public async register(server: Hapi.Server, redis: RedisClient) {
+  public async register(server: Hapi.Server, redis: RedisNativeClient) {
     return new Promise<void>((resolve) => {
       logger.info('Start adding vote routes');
 
