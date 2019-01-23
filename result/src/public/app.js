@@ -1,3 +1,7 @@
 const socket = io('http://localhost', { path: '/socket.io' });
 
-socket.on('results', console.log);
+const resultsNode = document.querySelector('#results');
+
+const updateResults = results => resultsNode && (resultsNode.innerHTML = results);
+
+socket.on('results', updateResults);
