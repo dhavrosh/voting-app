@@ -8,7 +8,7 @@ const pollTimeout = 2000;
 const requester = createRequester(CANDIDATE_URI);
 
 export const renderResults = async (_: Request, res: Response) => {
-  const data = await requester.call('/');
+  const data = await requester.call('/api');
 
   res.render(
     'index',

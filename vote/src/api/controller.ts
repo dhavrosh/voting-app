@@ -13,7 +13,7 @@ export default class VoteController {
   constructor(private redis: RedisNativeClient) { }
 
   public async getCandidates(_: Request, h: ResponseToolkit) {
-    const data = await requester.call('/');
+    const data = await requester.call('/api');
 
     return h.view('index', { data: JSON.parse(data) });
   }

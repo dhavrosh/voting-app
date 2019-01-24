@@ -1,0 +1,38 @@
+<style>
+  #avatars {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  #avatars .candidate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 290px;
+  }
+
+  #avatars .candidate:not(:last-child) {
+    margin-right: 30px;
+  }
+
+  #avatars .candidate img {
+    cursor: pointer;
+    border: 1px solid #b9b3c7;
+    width: 100%;
+    height: 250px;
+  }
+</style>
+
+<h1>CANDIDATES</h1>
+<br />
+<div id="avatars">
+  {{#each data}}
+  <div class="candidate">
+    <img src="{{avatar}}" />
+    <a href="/candidate/{{_id}}">{{fullName}}, {{company}}</a>
+  </div>
+  {{/each}}
+</div>

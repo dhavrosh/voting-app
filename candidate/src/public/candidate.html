@@ -1,0 +1,27 @@
+<style>
+  #candidate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #candidate img {
+    cursor: pointer;
+    border: 1px solid #b9b3c7;
+    width: 50%;
+    margin-bottom: 30px;
+  }
+
+  #candidate p {
+    width: 50%;
+    text-align: justify;
+  }
+</style>
+
+<h1>{{data.fullName}}</h1>
+<br />
+<div id="candidate">
+  <img src="{{data.avatar}}" />
+  <a href="/candidate/{{data._id}}">{{data.fullName}}, {{data.company}}</a>
+  <p>{{data.description}}</p>
+</div>

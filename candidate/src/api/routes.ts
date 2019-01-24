@@ -1,10 +1,13 @@
 import * as express from 'express';
 
-import * as controller from './controller';
+import * as dal from './dal';
 
 const router = express.Router();
 
-router.get('/', controller.getAll);
-router.get('/:id', controller.getById);
+router.get('/api', dal.getAll);
+router.get('/api/:id', dal.getById);
+
+router.get('/:id', dal.renderById);
+router.get('/', dal.renderAll);
 
 export { router };
