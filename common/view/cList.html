@@ -1,0 +1,8 @@
+<div id="avatars">
+    {{#each data}}
+      <div class="candidate">
+        <img src="{{avatar}}" />
+        <a href="/candidate/{{_id}}">{{fullName}}, {{company}}</a>
+      </div>
+  {{/each}}
+</div>

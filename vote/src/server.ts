@@ -16,6 +16,7 @@ export default class Server {
       relativeTo: __dirname,
       layout: true,
       path: 'template',
+      partialsPath: '../../common/view',
       layoutPath: '../../common/view',
     });
   }

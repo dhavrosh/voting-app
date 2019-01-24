@@ -1,13 +1,6 @@
 <h1>Select your candidate</h1>
 <br/>
-<div id="avatars">
-    {{#each data}}
-      <div class="candidate">
-        <img src="{{avatar}}" />
-        <a href="/candidate/{{_id}}">{{fullName}}, {{company}}</a>
-      </div>
-  {{/each}}
-</div>
+{{> cList }}
 <form action="/vote" method="POST">
   {{#each data}}
     <div class="vote">

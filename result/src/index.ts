@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as exphbs from 'express-handlebars';
 import socketIo from 'socket.io';
 
-import { pollResultDb } from './controller';
+import { renderResults, pollResultDb } from './controller';
 import { HOST, PORT, DB_URI } from './secrets';
 import { MysqlPool } from '../../common/service';
 
@@ -14,6 +14,7 @@ const app = express();
 const hbs = exphbs.create({
   extname: '.html',
   defaultLayout: 'layout',
+  partialsDir: '../../common/view',
   layoutsDir: '../../common/view',
 });
 
@@ -24,7 +25,7 @@ app.set('view engine', 'html');
 app.use(compression());
 app.use(bodyParser.json());
 app.use('/public', express.static(path.join(__dirname, 'public')))
-app.use('/', (_: express.Request, res: express.Response) => res.render('index'));
+app.use('/', renderResults);
 
 const server = new Server(app);
 const io = socketIo(server);

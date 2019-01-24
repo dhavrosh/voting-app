@@ -61,6 +61,7 @@ services:
     container_name: result
     environment:
       - DB_URI=mysql://root:root@db:3306/voting_dev_db
+      - CANDIDATE_URI=http://candidate:3003
     volumes:
       - ./result:/app
       - ./result/node_modules:/app/node_modules

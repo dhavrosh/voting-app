@@ -1,8 +1,10 @@
 const resultsNode = document.querySelector('#results');
 const colors = ['blue', 'red', 'white'];
 
+console.log('data', data);
+
 const updateResults = data => {
-  if (resultsNode) {
+  if (resultsNode && data.length > 0) {
     clearNode(resultsNode);
 
     const results = JSON.parse(data);
@@ -10,18 +12,23 @@ const updateResults = data => {
     const votesCount = results.reduce((acc, item) => acc + item.count, 0);
 
     const resultsWithStats = results.map((item, index) => ({ 
-      ...item, 
       color: colors[index],
-      part: getPercentOf(votesCount, item.count) }));
+      name: getCandidateName(item.candidate_id),
+      part: getPercentOf(votesCount, item.count) 
+    }));
 
     resultsWithStats.forEach(item => {
       const resultsItem = createResultNode(item);
       resultsNode.appendChild(resultsItem);
     }); 
   }
-
-  console.log(data);
 };
+
+const getCandidateName = id => {
+  const candidate = Array.isArray(data) && data.find(({ _id }) => _id === id);
+
+  return candidate && candidate.fullName;
+}
 
 const getPercentOf = (a, b) => (b * 100) / a;
 
@@ -35,10 +42,10 @@ const clearNode = node => {
 
 const createResultNode = result => {
 
-  const { candidate_id, part, color } = result;
+  const { name, part, color } = result;
 
   const container = document.createElement('div');
-  const title = createTitleNode(candidate_id);
+  const title = createTitleNode(name);
   const progress = createProgressNode(part, color);
 
   container.appendChild(title);
