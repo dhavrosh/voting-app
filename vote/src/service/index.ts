@@ -1,8 +1,15 @@
 import { ApiLogger } from './logger';
-import { RedisClient, RedisNativeClient } from '../../../common/service';
+import { CANDIDATE_URI } from '../secrets';
+import {
+  RedisClient,
+  RedisNativeClient,
+  createRequester,
+} from '../../../common/service';
 
 const logger = ApiLogger.newInstance();
 
 const redis = new RedisClient(logger);
 
-export { logger, redis, RedisNativeClient };
+const requester = createRequester(CANDIDATE_URI);
+
+export { logger, redis, requester, RedisNativeClient };

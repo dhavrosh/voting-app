@@ -1,14 +1,20 @@
 <h1>Select your candidate</h1>
 <br/>
+<div id="avatars">
+    {{#each data}}
+      <div class="candidate">
+        <img src="{{avatar}}" />
+        <a href="/candidate/{{_id}}">{{fullName}}, {{company}}</a>
+      </div>
+  {{/each}}
+</div>
 <form action="/vote" method="POST">
-  {{#options}}
-  {{#each this}}
+  {{#each data}}
     <div class="vote">
-      <input type="radio" name="vote" value="{{value}}"} required/>
-      <h2>{{label}}</h2>
+      <input type="radio" name="vote" value="{{_id}}"} required/>
+      <h2>{{fullName}}</h2>
     </div>
   {{/each}}
-  {{/options}}
   <div id="vote-block">
     <input type="submit" value="Vote"/>
   </div>

@@ -16,7 +16,6 @@ export default class Server {
       relativeTo: __dirname,
       layout: true,
       path: 'template',
-      helpersPath: 'helper',
       layoutPath: '../../common/view',
     });
   }
@@ -24,10 +23,7 @@ export default class Server {
   public static async start(): Promise<Hapi.Server> {
     try {
 
-      Server.instance = new Hapi.Server({
-        host: HOST,
-        port: PORT,
-      });
+      Server.instance = new Hapi.Server({ host: HOST, port: PORT });
 
       const redisClient = await redis.connect({ host: RHOST });
 

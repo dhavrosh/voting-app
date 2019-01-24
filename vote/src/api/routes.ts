@@ -16,7 +16,7 @@ export default class VoteRoutes implements Route {
       server.route({
         method: 'GET',
         path: '/',
-        handler: { view: 'index' },
+        options: { handler: controller.getCandidates },
       });
 
       server.route(

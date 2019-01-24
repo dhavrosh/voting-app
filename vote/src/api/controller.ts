@@ -1,6 +1,6 @@
-import { ResponseToolkit } from 'hapi';
+import { Request, ResponseToolkit } from 'hapi';
 
-import { RedisNativeClient } from '../service';
+import { RedisNativeClient, requester } from '../service';
 import { PostRequest } from '../types';
 import { RLIST_NAME } from '../secrets';
 
@@ -10,7 +10,13 @@ interface VotePayload {
 
 export default class VoteController {
 
-  constructor(private redis: RedisNativeClient) {}
+  constructor(private redis: RedisNativeClient) { }
+
+  public async getCandidates(_: Request, h: ResponseToolkit) {
+    const data = await requester.call('/');
+
+    return h.view('index', { data: JSON.parse(data) });
+  }
 
   public async vote(request: PostRequest<VotePayload>, h: ResponseToolkit) {
 
