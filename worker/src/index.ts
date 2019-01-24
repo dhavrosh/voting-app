@@ -2,7 +2,6 @@ import * as Restify from 'restify';
 
 import { pollVoteList } from './controller';
 import { DB_URI, RHOST, HOST, PORT } from './secrets';
-
 import { MysqlPool, RedisClient } from '../../common/service';
 
 const start = async () => {
@@ -17,9 +16,6 @@ const start = async () => {
     console.log(`${server.name} listening at ${server.url}`);
 
     pollVoteList(redisClient, mysqlPool);
-
-    const votes = await mysqlPool.doQuery('SELECT * FROM vote');
-    console.log('votes', votes);
   });
 };
 

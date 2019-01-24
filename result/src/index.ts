@@ -1,10 +1,10 @@
 import { Server } from 'http';
 import * as path from 'path'
-import * as express from 'express';
-import * as compression from 'compression';
+import express from 'express';
+import compression from 'compression';
 import * as bodyParser from 'body-parser';
 import * as exphbs from 'express-handlebars';
-import * as socketIo from 'socket.io';
+import socketIo from 'socket.io';
 
 import { pollResultDb } from './controller';
 import { HOST, PORT, DB_URI } from './secrets';
@@ -40,4 +40,9 @@ server.listen(PORT, HOST, () => {
   const mysqlPool = new MysqlPool({ uri: DB_URI });
 
   pollResultDb(mysqlPool, io);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log(err);
+  process.exit(1);
 });

@@ -1,0 +1,30 @@
+{
+  "name": "result",
+  "version": "1.0.0",
+  "description": "candidate microservice",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node-dev src/index.ts"
+  },
+  "keywords": [
+    "voting-app",
+    "microservices"
+  ],
+  "author": "dhavrosh",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/compression": "0.0.36",
+    "@types/dotenv": "^6.1.0",
+    "@types/express": "^4.16.0",
+    "@types/mongoose": "^5.3.9",
+    "@types/node": "^10.12.12",
+    "ts-node-dev": "^1.0.0-pre.31",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "compression": "^1.7.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.6"
+  }
+}
