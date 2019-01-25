@@ -1,21 +1,16 @@
 import * as Restify from 'restify';
 
-import { pollVoteList } from './controller';
-import { DB_URI, RHOST, HOST, PORT } from './secrets';
-import { MysqlPool, RedisClient } from '../../common/service';
+import { HOST, PORT } from './secrets';
+import * as ampqClient from './ampqClient';
 
 const start = async () => {
   
   const server = Restify.createServer();
 
-  const mysqlPool = new MysqlPool({ uri: DB_URI });
-  const redis: RedisClient = new RedisClient(console);
-  const redisClient = await redis.connect({ host: RHOST });
+  await ampqClient.init();
 
   server.listen(PORT, HOST, async () => {
     console.log(`${server.name} listening at ${server.url}`);
-
-    pollVoteList(redisClient, mysqlPool);
   });
 };
 
