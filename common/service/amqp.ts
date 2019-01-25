@@ -43,7 +43,7 @@ export class AmqpClient implements AmqpClient {
     });
   }
 
-  produce(routingKey: string, msg: string, options?: amqp.Options.Publish) {
+  produce(routingKey: string, msg: string = '', options?: amqp.Options.Publish) {
     return this.channel.publish(this.exchangeName, routingKey, new Buffer(msg), options);
   }
 }

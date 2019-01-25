@@ -3,6 +3,7 @@ import {
   RABBITMQ_URI,
   EXCHANGE_NAME,
   VOTE_AMPQ_KEY,
+  RESULT_AMPQ_KEY,
 } from './secrets';
 import { AmqpClient, MysqlPool } from '../../common/service';
 
@@ -13,6 +14,8 @@ export const init = async () => {
   amqpClient.consume(undefined, [VOTE_AMPQ_KEY], async (msg) => {
     const vote = msg.content.toString();
 
-    pool.doQuery('INSERT INTO vote (candidate_id) VALUES (?);', vote);
+    await pool.doQuery('INSERT INTO vote (candidate_id) VALUES (?);', vote);
+
+    amqpClient.produce(RESULT_AMPQ_KEY);
   });
 };

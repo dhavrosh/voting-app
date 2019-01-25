@@ -6,15 +6,19 @@ import {
 import { getAll } from './api/controller';
 import { AmqpClient } from '../../common/service';
 
+const messageInterval = 5000;
+
 export const init = async () => {
   const amqpClient = await new AmqpClient(RABBITMQ_URI, EXCHANGE_NAME).init();
 
-  amqpClient.consume(undefined, [CANDIDATE_AMPQ_KEY], async (msg) => {
+  const sendCandidates = async () => {
     const data = await getAll();
     const jsonData = JSON.stringify(data);
 
-    const { replyTo, correlationId } = msg.properties;
+    amqpClient.produce(CANDIDATE_AMPQ_KEY, jsonData);
+  }
 
-    amqpClient.produce(replyTo, jsonData, { correlationId });
-  });
+  setInterval(sendCandidates, messageInterval);
+
+  await sendCandidates();
 };

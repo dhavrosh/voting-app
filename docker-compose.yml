@@ -31,7 +31,6 @@ services:
       - RABBITMQ_URI=amqp://rabbitmq
       - EXCHANGE_NAME=votesExchange
       - CANDIDATE_AMPQ_KEY=candidate
-      - CANDIDATE_VOTE_AMPQ_KEY=candidate_vote
       - VOTE_AMPQ_KEY=vote
     volumes:
       - ./vote:/app
@@ -44,6 +43,7 @@ services:
       - rabbitmq-tier
     depends_on:
       - rabbitmq
+      - candidate
 
   worker:
     build: ./worker
@@ -52,6 +52,7 @@ services:
       - RABBITMQ_URI=amqp://rabbitmq
       - EXCHANGE_NAME=votesExchange
       - VOTE_AMPQ_KEY=vote
+      - RESULT_AMPQ_KEY=result
       - DB_URI=mysql://root:root@db:3306/voting_dev_db
     volumes:
       - ./worker:/app
@@ -70,7 +71,10 @@ services:
     build: ./result
     container_name: result
     environment:
-      - MESSAGE_QUEUE=amqp://rabbitmq
+      - RABBITMQ_URI=amqp://rabbitmq
+      - EXCHANGE_NAME=votesExchange
+      - RESULT_AMPQ_KEY=result
+      - CANDIDATE_AMPQ_KEY=candidate
       - DB_URI=mysql://root:root@db:3306/voting_dev_db
     volumes:
       - ./result:/app
@@ -81,8 +85,10 @@ services:
     networks:
       - front-tier
       - rabbitmq-tier
+      - db-tier
     depends_on:
       - rabbitmq
+      - candidate
       - db
 
   candidate:

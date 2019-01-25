@@ -1,31 +1,52 @@
 import { Request, Response } from 'express';
 import { Server } from 'socket.io';
 
-import { CANDIDATE_URI } from './secrets';
-import { MysqlPool, createRequester } from '../../common/service';
+import { CANDIDATE_AMPQ_KEY, RESULT_AMPQ_KEY } from './secrets';
+import { MysqlPool, AmqpClient } from '../../common/service';
 
-const pollTimeout = 2000;
-const requester = createRequester(CANDIDATE_URI);
+export default class ResultController {
 
-export const renderResults = async (_: Request, res: Response) => {
-  const data = await requester.call('/api');
+  private candidatesData: string;
 
-  res.render(
-    'index',
-    {
-      data: JSON.parse(data),
-      rawData: encodeURIComponent(JSON.stringify(data))
-    }
-  );
-}
+  constructor(
+    private io: Server, 
+    private pool: MysqlPool, 
+    private ampqClient: AmqpClient
+  ) {
+    this.io = io;
+    this.pool = pool;
+    this.ampqClient = ampqClient;
 
-const selectResults = async (mysqlPool: MysqlPool) =>
-  mysqlPool.doQuery('SELECT candidate_id, COUNT(id) AS count FROM vote GROUP BY candidate_id');
+    this.initAmpqClient();
+  }
 
-export const pollResultDb = async (mysqlPool: MysqlPool, io: Server) => {
-  const results = await selectResults(mysqlPool);
+  private initAmpqClient() {
+    this.ampqClient.consume(undefined, [CANDIDATE_AMPQ_KEY], async (msg) => {
+      this.candidatesData = msg.content.toString();
+    });
 
-  io.sockets.emit('results', JSON.stringify(results));
+    this.ampqClient.consume(undefined, [RESULT_AMPQ_KEY], async (_) => {
+      const results = await this.fetchResults();
 
-  setTimeout(() => pollResultDb(mysqlPool, io), pollTimeout);
+      this.io.sockets.emit('results', JSON.stringify(results));
+    });
+  }
+
+  private async fetchResults() {
+    return this.pool.doQuery('SELECT candidate_id, COUNT(id) AS count FROM vote GROUP BY candidate_id');
+  }
+
+  public async renderResults (_: Request, res: Response) {
+    const data = this.candidatesData || "[]";
+    const results = await this.fetchResults();
+  
+    res.render(
+      'index',
+      {
+        results,
+        data: JSON.parse(data),
+        rawData: encodeURIComponent(JSON.stringify(data))
+      }
+    );
+  }
 }

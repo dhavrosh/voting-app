@@ -6,7 +6,12 @@ export const HOST = process.env.HOST as string;
 export const PORT = parseInt(process.env.PORT as string);
 
 export const DB_URI = process.env.DB_URI as string;
-export const CANDIDATE_URI = process.env.CANDIDATE_URI as string;
+
+export const RABBITMQ_URI = process.env.RABBITMQ_URI as string;
+export const EXCHANGE_NAME = process.env.EXCHANGE_NAME as string;
+
+export const RESULT_AMPQ_KEY = process.env.RESULT_AMPQ_KEY as string;
+export const CANDIDATE_AMPQ_KEY = process.env.CANDIDATE_AMPQ_KEY as string;
 
 if (!HOST || !PORT) {
   console.error('No server configurations. Provide HOST and PORT environment variables.');
@@ -18,7 +23,7 @@ if (!DB_URI) {
   process.exit(1);
 }
 
-if (!CANDIDATE_URI) {
-  console.error('No candidate service configurations. Provide CANDIDATE_URI environment variable.');
+if (!RABBITMQ_URI || !EXCHANGE_NAME || !RESULT_AMPQ_KEY || !CANDIDATE_AMPQ_KEY) {
+  console.error('No rabbitmq configurations. Provide all rabbitmq environment variables.');
   process.exit(1);
 }

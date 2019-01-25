@@ -10,6 +10,7 @@ export const DB_URI = process.env.DB_URI as string;
 export const RABBITMQ_URI = process.env.RABBITMQ_URI as string;
 export const EXCHANGE_NAME = process.env.EXCHANGE_NAME as string;
 export const VOTE_AMPQ_KEY = process.env.VOTE_AMPQ_KEY as string;
+export const RESULT_AMPQ_KEY = process.env.RESULT_AMPQ_KEY as string;
 
 if (!HOST || !PORT) {
   console.error('No server configurations. Provide HOST and PORT environment variables.');
@@ -22,7 +23,7 @@ if (!DB_URI) {
 }
 
 
-if (!RABBITMQ_URI || !EXCHANGE_NAME || !VOTE_AMPQ_KEY) {
+if (!RABBITMQ_URI || !EXCHANGE_NAME || !VOTE_AMPQ_KEY || !RESULT_AMPQ_KEY) {
   console.error('No rabbitmq configurations. Provide all rabbitmq environment variables.');
   process.exit(1);
 }
