@@ -1,15 +1,9 @@
 import { ApiLogger } from './logger';
-import { CANDIDATE_URI } from '../secrets';
-import {
-  RedisClient,
-  RedisNativeClient,
-  createRequester,
-} from '../../../common/service';
+import { RABBITMQ_URI, EXCHANGE_NAME } from '../secrets';
+import { AmqpClient } from '../../../common/service';
 
 const logger = ApiLogger.newInstance();
 
-const redis = new RedisClient(logger);
+const ampqClient = new AmqpClient(RABBITMQ_URI, EXCHANGE_NAME);
 
-const requester = createRequester(CANDIDATE_URI);
-
-export { logger, redis, requester, RedisNativeClient };
+export { logger, ampqClient, AmqpClient };

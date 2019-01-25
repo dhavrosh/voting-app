@@ -4,6 +4,7 @@
   "description": "common utils and services",
   "main": "index.ts",
   "dependencies": {
+    "amqplib": "^0.5.3",
     "bluebird": "^3.5.3",
     "mysql2": "^1.6.4",
     "redis": "^2.8.0",
@@ -11,6 +12,7 @@
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.5.9",
     "@types/bluebird": "^3.5.24",
     "@types/mysql2": "github:types/mysql2",
     "@types/redis": "^2.8.8",

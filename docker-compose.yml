@@ -11,20 +11,27 @@ services:
       - 80:80
     links:
       - "vote"
-      - "result"
       - "candidate"
     restart: always
     networks:
       - front-tier
+
+  rabbitmq:
+    image: rabbitmq:3.7.4
+    container_name: rabbitmq
+    networks:
+      - rabbitmq-tier
 
   vote:
     build: ./vote
     container_name: vote
     command: npm start
     environment:
-      - RHOST=redis
-      - RLIST_NAME=votes
-      - CANDIDATE_URI=http://candidate:3003
+      - RABBITMQ_URI=amqp://rabbitmq
+      - EXCHANGE_NAME=votesExchange
+      - CANDIDATE_AMPQ_KEY=candidate
+      - CANDIDATE_VOTE_AMPQ_KEY=candidate_vote
+      - VOTE_AMPQ_KEY=vote
     volumes:
       - ./vote:/app
       - ./vote/node_modules:/app/node_modules
@@ -33,16 +40,15 @@ services:
     restart: on-failure
     networks:
       - front-tier
-      - back-tier
+      - rabbitmq-tier
     depends_on:
-      - redis
+      - rabbitmq
 
   worker:
     build: ./worker
     container_name: worker
     environment:
-      - RHOST=redis
-      - RLIST_NAME=votes
+      - MESSAGE_QUEUE=amqp://rabbitmq
       - DB_URI=mysql://root:root@db:3306/voting_dev_db
     volumes:
       - ./worker:/app
@@ -51,17 +57,17 @@ services:
       - ./common:/common
     restart: on-failure
     networks:
-      - back-tier
+      - rabbitmq-tier
     depends_on:
-      - redis
+      - rabbitmq
       - db
 
   result:
     build: ./result
     container_name: result
     environment:
+      - MESSAGE_QUEUE=amqp://rabbitmq
       - DB_URI=mysql://root:root@db:3306/voting_dev_db
-      - CANDIDATE_URI=http://candidate:3003
     volumes:
       - ./result:/app
       - ./result/node_modules:/app/node_modules
@@ -70,14 +76,18 @@ services:
     restart: on-failure
     networks:
       - front-tier
-      - back-tier
+      - rabbitmq-tier
     depends_on:
+      - rabbitmq
       - db
 
   candidate:
     build: ./candidate
     container_name: candidate
     environment:
+      - RABBITMQ_URI=amqp://rabbitmq
+      - EXCHANGE_NAME=votesExchange
+      - CANDIDATE_AMPQ_KEY=candidate
       - DB_URI=mongodb://mongo:27017/candidate
     volumes:
       - ./candidate:/app
@@ -87,19 +97,11 @@ services:
     restart: on-failure
     networks:
       - front-tier
-      - back-tier
+      - rabbitmq-tier
+      - mongo-tier
     depends_on:
+      - rabbitmq
       - mongo
-
-  redis:
-    image: redis:alpine
-    command: ["redis-server", "--appendonly", "yes"]
-    hostname: redis
-    volumes:
-      - redis-data:/data
-    ports: ["6379"]
-    networks:
-      - back-tier
 
   db:
     build: ./db
@@ -110,23 +112,20 @@ services:
     restart: always
     volumes:
       - db-data:/var/lib/mysql
-    networks:
-      - back-tier
 
   mongo:
     image: mongo
     restart: always
     volumes:
       - mongo-data:/data/db
-    networks:
-      - back-tier
-    
+    networks: 
+      - mongo-tier
 
 volumes:
-  redis-data:
   db-data:
   mongo-data:
 
 networks:
   front-tier:
-  back-tier:
+  rabbitmq-tier:
+  mongo-tier:

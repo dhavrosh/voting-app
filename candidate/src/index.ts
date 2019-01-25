@@ -7,6 +7,7 @@ import * as exphbs from 'express-handlebars';
 import { connect } from './db';
 import { router } from './api';
 import { HOST, PORT, DB_URI } from './secrets';
+import * as ampqClient from './ampqClient';
 
 const app = express();
 const hbs = exphbs.create({
@@ -30,9 +31,12 @@ app.use(router);
 
 const server = new Server(app);
 
-connect(DB_URI, () => 
+connect(DB_URI, async () => {
+
+  await ampqClient.init();
+
   server.listen(PORT, HOST, () => console.log(`Server started on port ${PORT}`))
-);
+});
 
 process.on('unhandledRejection', (err) => {
   console.log(err);

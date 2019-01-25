@@ -1,8 +1,8 @@
 import * as Hapi from 'hapi';
 import * as vision from 'vision';
 
-import { HOST, PORT, RHOST } from './secrets';
-import { logger, redis } from './service';
+import { HOST, PORT } from './secrets';
+import { logger, ampqClient } from './service';
 import Router from './router';
 
 export default class Server {
@@ -26,10 +26,10 @@ export default class Server {
 
       Server.instance = new Hapi.Server({ host: HOST, port: PORT });
 
-      const redisClient = await redis.connect({ host: RHOST });
+      await ampqClient.init();
 
       await Server.initTemplateEngine(Server.instance);
-      await Router.loadRoutes(Server.instance, redisClient);
+      await Router.loadRoutes(Server.instance, ampqClient);
       await Server.instance.start();
 
       logger.info(`Server started successfully on port ${Server.instance.info.port}`);

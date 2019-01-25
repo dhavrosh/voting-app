@@ -1,8 +1,8 @@
 import { Request, Server } from 'hapi';
-import { RedisNativeClient } from './service';
+import { AmqpClient } from './service';
 
 export interface Route {
-  register(server: Server, redis: RedisNativeClient): Promise<void>;
+  register(server: Server, amqpClient: AmqpClient): Promise<void>;
 }
 
 export interface PostRequest<T extends object> extends Request {
